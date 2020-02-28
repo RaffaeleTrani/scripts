@@ -48,4 +48,4 @@ echo "IPERF TESTS COMPLETED, CHECK INTERFACES OF PODS"
 
 ${kubectl} exec $NSC -c iperf3-client -- ip -s link | awk '/nsm/,0'
 ${kubectl} exec $NSE -c iperf3-server -- ip -s link | awk '/nsm/,0'
-${kubectl} exec $FW -c firewall-container -- vppctl show int
+${kubectl} exec $FW -- vppctl show int
