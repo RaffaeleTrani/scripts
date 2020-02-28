@@ -14,6 +14,14 @@ trap cleanup EXIT
 set -x
 set -e
 
+#specific commands for my cluster, comment up to mkdir nsm command
+sudo swapoff -a
+sudo systemctl restart docker
+sudo systemctl restart kubelet
+sleep 1m
+kubectl get nodes
+cd Raffaele
+
 mkdir nsm
 cd nsm
 git clone https://github.com/networkservicemesh/networkservicemesh.git
