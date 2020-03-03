@@ -13,6 +13,23 @@ trap cleanup EXIT
 set -x
 set -e
 
+#KEEP THIS PART COMMENTED IF YOU ALREADY HAVE POLYCUBE INSTALLED AND RUNNING IN YOUR MACHINE
+#
+## install git
+##sudo apt-get install git
+#
+## clone the polycube repository
+##git clone https://github.com/polycube-network/polycube
+##cd polycube
+##git submodule update --init --recursive
+## launch the automatic install script (use -h to see the different installation modes)
+#./scripts/install.sh
+# start polycubed service
+## (sudo service start polycubed will work in many distros as well)
+#sudo systemctl start polycubed
+#
+## check service status
+#sudo systemctl status polycubed
 
 #creation of namespaces
 sudo ip netns add ns_client
