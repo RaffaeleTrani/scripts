@@ -56,6 +56,13 @@ polycubectl pbforwarder pbfw1 ports veth2 set peer="veth2"
 polycubectl pbforwarder pbfw1 rules add 0 in_port=veth1 action=FORWARD out_port=veth2
 polycubectl pbforwarder pbfw1 rules add 1 in_port=veth2 action=FORWARD out_port=veth1
 
+polycubectl firewall add fw
+polycubectl attach fw veth1
+polycubectl firewall fw chain INGRESS rule add 0 src=10.100.0.1 dst=10.100.0.2 l4proto=ICMP action=FORWARD
+polycubectl firewall fw chain EGRESS rule add 0 src=10.100.0.2 dst=10.100.0.1 l4proto=ICMP action=FORWARD
+polycubectl firewall fw chain INGRESS rule add 1 src=10.100.0.1 dst=10.100.0.2 l4proto=TCP action=FORWARD
+polycubectl firewall fw chain EGRESS rule add 1 src=10.100.0.2 dst=10.100.0.1 l4proto=TCP action=FORWARD
+
 # Ping client-server
 sudo ip netns exec ns_client ping 10.100.0.2 -c 2
 
