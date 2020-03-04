@@ -5,6 +5,7 @@ function cleanup {
   sudo ip netns exec ns1 polycubectl firewall del fw
   sudo ip netns del ns_client
   sudo ip netns del ns_server
+  sudo pkill polycubed
 }
 
 trap cleanup EXIT
