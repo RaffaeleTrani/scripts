@@ -40,8 +40,8 @@ sudo ip netns exec ns_client ip link set veth1 up
 sudo ip netns exec ns_server ip link set veth2 up
 
 sudo ip netns exec ns_client ip link set lo up
-sudo ip netns exec ns_client sudo polycubed &
-sleep5
+nohup sudo ip netns exec ns_client sudo polycubed &
+sleep 5
 
 #create firewall
 sudo ip netns exec ns_client polycubectl firewall add fw
