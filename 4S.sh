@@ -59,8 +59,8 @@ polycubectl pbforwarder pbfw1 rules add 1 in_port=veth2 action=FORWARD out_port=
 polycubectl firewall add fw
 polycubectl attach fw veth1
 polycubectl firewall fw chain INGRESS rule add 0 src=10.100.0.1 dst=10.100.0.2 l4proto=ICMP action=FORWARD
-polycubectl firewall fw chain EGRESS rule add 0 src=10.100.0.2 dst=10.100.0.1 l4proto=ICMP action=FORWARD
 polycubectl firewall fw chain INGRESS rule add 1 src=10.100.0.1 dst=10.100.0.2 l4proto=TCP action=FORWARD
+polycubectl firewall fw chain EGRESS rule add 0 src=10.100.0.2 dst=10.100.0.1 l4proto=ICMP action=FORWARD
 polycubectl firewall fw chain EGRESS rule add 1 src=10.100.0.2 dst=10.100.0.1 l4proto=TCP action=FORWARD
 
 # Ping client-server
@@ -76,6 +76,8 @@ sudo ip netns exec ns_client iperf3 -c 10.100.0.2 -t 60 -V
 
 echo "IPERF TESTS COMPLETED, CHECK INTERFACES OF NAMESPACES"
 
-sudo ip netns exec ns_client ip -s link | awk '/veth0_/,0'
-sudo ip netns exec ns_server ip -s link | awk '/veth1_/,0'
+sudo ip netns exec ns_client ip -s link | awk '/veth1_/,0'
+sudo ip netns exec ns_server ip -s link | awk '/veth2_/,0'
 polycubectl pbforwarder pbfw1 show rules -verbose
+polycubectl firewall fw show chain ingress
+polycubectl firewall fw show chain egress
