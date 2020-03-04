@@ -7,13 +7,15 @@ function cleanup {
   sudo ip link del veth1 > /dev/null 2>&1
   sudo ip link del veth2 > /dev/null 2>&1
   polycubectl pbforwarder del pbfw1
+  polycubectl firewall del fw
+  sudo systemctl stop polycubed
 }
 
 trap cleanup EXIT
 set -x
 set -e
 
-#KEEP THIS PART COMMENTED IF YOU ALREADY HAVE POLYCUBE INSTALLED AND RUNNING IN YOUR MACHINE
+#KEEP THIS PART COMMENTED IF YOU ALREADY HAVE POLYCUBE INSTALLED
 #
 ## install git
 ##sudo apt-get install git
@@ -24,12 +26,10 @@ set -e
 ##git submodule update --init --recursive
 ## launch the automatic install script (use -h to see the different installation modes)
 #./scripts/install.sh
+
 # start polycubed service
-## (sudo service start polycubed will work in many distros as well)
-#sudo systemctl start polycubed
-#
-## check service status
-#sudo systemctl status polycubed
+sudo systemctl start polycubed
+sleep 5
 
 #creation of namespaces
 sudo ip netns add ns_client
@@ -59,8 +59,8 @@ polycubectl pbforwarder pbfw1 rules add 1 in_port=veth2 action=FORWARD out_port=
 polycubectl firewall add fw
 polycubectl attach fw veth1
 polycubectl firewall fw chain INGRESS rule add 0 src=10.100.0.1 dst=10.100.0.2 l4proto=ICMP action=FORWARD
-polycubectl firewall fw chain INGRESS rule add 1 src=10.100.0.1 dst=10.100.0.2 l4proto=TCP action=FORWARD
 polycubectl firewall fw chain EGRESS rule add 0 src=10.100.0.2 dst=10.100.0.1 l4proto=ICMP action=FORWARD
+polycubectl firewall fw chain INGRESS rule add 1 src=10.100.0.1 dst=10.100.0.2 l4proto=TCP action=FORWARD
 polycubectl firewall fw chain EGRESS rule add 1 src=10.100.0.2 dst=10.100.0.1 l4proto=TCP action=FORWARD
 
 # Ping client-server
