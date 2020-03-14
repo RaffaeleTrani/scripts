@@ -6,7 +6,7 @@ function cleanup {
   sudo ip netns del ns_client
   sudo ip netns del ns_firewall
   sudo ip netns del ns_server
-  yes | rm -r firewall
+  yes | rm -r sniffer
 }
 trap cleanup EXIT
 
@@ -14,8 +14,8 @@ set -x
 set -e
 
 #get firewall application
-mkdir firewall
-git clone https://github.com/RaffaeleTrani/firewall.git firewall
+mkdir sniffer
+git clone https://github.com/RaffaeleTrani/sniffer.git sniffer
 
 #creation of namespaces
 sudo ip netns add ns_client
@@ -46,7 +46,7 @@ sudo ip netns exec ns_server ip route add default via 10.100.2.1 dev veth3
 #Note: no addictional route in firewall as it already knows how to reach veth pairs
 
 #start firewall user application
-sudo ip netns exec ns_firewall firewall/cmake-build-debug/untitled namespaces &
+sudo ip netns exec ns_firewall sniffer/cmake-build-debug/untitled namespaces &
 
 #command to check if firewall process is running in background as expected
 jobs
