@@ -62,6 +62,6 @@ sudo ip netns exec ns_client iperf3 -c 10.100.1.2 -t 60 -V
 echo "IPERF TESTS COMPLETED, CHECK INTERFACES OF NAMESPACES"
 
 sudo ip netns exec ns_client ip -s link | awk '/veth0/,0'
-sudo ip netns exec ns_firewall ip -s link | awk '/veth1,0'
-sudo ip netns exec ns_firewall ip -s link | awk '/veth2,0'
+sudo ip netns exec ns_firewall ip -s link | awk '/veth1/,0'
+sudo ip netns exec ns_firewall ip -s link | awk '/veth2/,0'
 sudo ip netns exec ns_server ip -s link | awk '/veth3/,0'
