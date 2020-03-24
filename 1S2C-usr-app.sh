@@ -4,6 +4,8 @@ function cleanup {
   set +e
   set +x
   sudo ip netns del ns_client
+  sudo kill $(ps aux | grep 'sudo ip netns exec ns_firewall' | awk '{print $2}') > /dev/null 2>&1
+  sudo kill $(ps aux | grep 'iperf3 -s -D' | awk '{print $2}') > /dev/null 2>&1  
   sudo ip netns del ns_firewall
   sudo ip netns del ns_server
   yes | rm -r firewall
