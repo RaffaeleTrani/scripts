@@ -41,7 +41,6 @@ NSE=$(${kubectl} get pods -o=name | grep vpp-iperf-server | sed 's@.*/@@')
 FW=$(${kubectl} get pods -o=name | grep vpp-firewall | sed 's@.*/@@')
 
 ${kubectl} exec $NSC -- bash -c "apt-get update && apt-get install iperf3 -y"
-#${kubectl} exec $NSC -- apt-get install iperf3 -y
 ${kubectl} exec $NSC -- touch vcl.conf
 ${kubectl} exec $NSC -- bash -c "cat > vcl.conf <<EOF
 vcl {
