@@ -14,7 +14,7 @@ trap cleanup EXIT
 set -x
 set -e
 
-#specific commannds for my cluster, comment until mkdir nsm command
+#specific commands for my cluster, comment up to "mkdir nsm" command
 sudo swapoff -a
 sudo systemctl restart docker
 sudo systemctl restart kubelet
