@@ -66,8 +66,8 @@ echo $inIf
 echo $outIf
 
 #firewall application iptables
-${kubectl} exec $FW -c firewall-container -- iptables -A FORWARD -i $inIf -o $outIf -j ACCEPT
-${kubectl} exec $FW -c firewall-container -- iptables -A FORWARD -i $outIf -o $inIf -j ACCEPT
+${kubectl} exec $FW -c firewall-container -- iptables -A FORWARD -i $inIf -o $outIf -d $ipServer -j ACCEPT
+${kubectl} exec $FW -c firewall-container -- iptables -A FORWARD -i $outIf -o $inIf -d $ipClient -j ACCEPT
 
 ${kubectl} exec $NSC -c iperf3-client -- iperf3 -c $ipServer -t 60 -V
 
